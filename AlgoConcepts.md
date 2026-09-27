@@ -3,8 +3,30 @@
 This repository serves as a deep-dive reference for understanding the mathematical intuition and mechanical logic behind core Machine Learning algorithms. The focus is strictly on understanding *how* and *why* the algorithms make decisions from scratch, prioritizing raw mechanics over library implementations.
 
 ---
+## 1. Linear Regression & Gradient Descent
 
-## 1. Logistic Regression
+Linear Regression predicts a continuous numerical output by fitting a straight line (or hyperplane in higher dimensions) through data points. The goal is to find the optimal weights (parameters) that minimize the error between predictions and actual values.
+
+### A. The Hypothesis Function
+The hypothesis is the mathematical equation of the line. For a dataset with features $x_1, x_2, ... x_n$, the model calculates the weighted sum of inputs plus a bias term ($\theta_0$):
+$$h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n = \theta^T x$$
+
+### B. The Cost Function (Mean Squared Error)
+To measure how "wrong" the line is, we calculate the difference between our prediction $h_\theta(x^{(i)})$ and the actual target $y^{(i)}$, square it to remove negative signs and heavily penalize large errors, and average it across all $m$ data points.
+$$J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$$
+
+### C. Gradient Descent (GD) Optimization
+Gradient Descent calculates the derivative (slope) of the cost function with respect to each weight. The derivative acts as a compass pointing toward the steepest ascent; we subtract it to move "downhill" toward the minimum error. 
+$$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta)$$
+*(Where $\alpha$ is the learning rate, controlling the size of the step).*
+
+*   **Batch Gradient Descent (BGD):** Calculates the error across the *entire* dataset before taking a single step. It takes a perfect, smooth path to the minimum but is computationally expensive for large datasets.
+*   **Stochastic Gradient Descent (SGD):** Calculates the error and updates the weights using only *one single data point* at a time. It wanders erratically but learns incredibly fast and escapes local minimums easily.
+
+---
+
+
+## 2. Logistic Regression
 
 Unlike Linear Regression, which predicts a continuous numerical output, Logistic Regression is designed specifically for classification by predicting probabilities between 0 and 1.
 
@@ -16,7 +38,7 @@ $$LogLoss = - \frac{1}{N} \sum_{i=1}^{N} [y_i \log(\hat{y}_i) + (1-y_i)\log(1-\h
 
 ---
 
-## 2. K-Nearest Neighbors (KNN)
+## 3. K-Nearest Neighbors (KNN)
 
 KNN is a "lazy learner." It has no true training phase; it simply memorizes the entire dataset and classifies unseen data based on physical proximity in geometric space.
 
@@ -28,7 +50,7 @@ $$d = \sqrt{\sum_{i=1}^{n} (q_i - p_i)^2}$$
 
 ---
 
-## 3. Decision Trees
+## 4. Decision Trees
 
 Decision Trees abandon continuous equations and geometric distances entirely. Instead, they use a recursive series of rigid, logical True/False questions to slice the dataset into perfectly pure segments. 
 
@@ -106,7 +128,7 @@ Decision Trees struggle with massive continuous datasets. Sorting 1 million rows
 
 ---
 
-## 4. Random Forests
+## 5. Random Forests
 
 A single Decision Tree is inherently unstable. If grown without limits, it will perfectly memorize the training data (severe overfitting). A tiny change in a single data point can completely alter the entire tree structure. 
 
